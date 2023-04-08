@@ -6,11 +6,17 @@ django-js-asset==2.0.0
 django-resized==1.0.2
 django-smartfields==1.1.3
 djangorestframework==3.14.0
+<<<<<<< HEAD
 djangorestframework-simplejwt==5.2.2
 gunicorn==20.1.0
 Pillow==9.5.0
 psycopg2-binary==2.9.5
 PyJWT==2.6.0
+=======
+gunicorn==20.1.0
+Pillow==9.5.0
+psycopg2-binary==2.9.5
+>>>>>>> 8034906805207c0cd44304fa040219a0a019714e
 pytz==2023.3
 six==1.16.0
 sqlparse==0.4.2
