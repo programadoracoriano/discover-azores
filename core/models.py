@@ -9,16 +9,18 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 class Profile(models.Model):
+    user        = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile',
+                                       verbose_name="Utilizador", null=True, blank=True)
     image       = ResizedImageField(size=[200, 200], upload_to='users/profile/', force_format='WEBP',
                                     quality=85, null=True, blank=True, verbose_name="Foto de Perfil",
                                     keep_meta=False)
-    address     = models.CharField(max_length=150, null=True, blank=True, 
+    address     = models.CharField(max_length=150, null=True, blank=True,
                                    verbose_name="Morada")
-    zip_code    = models.CharField(max_length=150, null=True, blank=True, 
+    zip_code    = models.CharField(max_length=150, null=True, blank=True,
                                    verbose_name="Código Postal")
-    city        = models.CharField(max_length=150, null=True, blank=True, 
+    city        = models.CharField(max_length=150, null=True, blank=True,
                                    verbose_name="Cidade")
-    verified    = models.CharField(max_length=1, null=True, blank=True, default=0, 
+    verified    = models.CharField(max_length=1, null=True, blank=True, default=0,
                                    verbose_name="Verificado")
 
 @receiver(post_save, sender=User)
@@ -32,9 +34,9 @@ def save_user_profile(sender, instance, **kwargs):
 
 
 class ImageGallery(models.Model):
-    user    = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, 
+    user    = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True,
                                 verbose_name="Utilizador")
-    name    = models.CharField(max_length=150, null=False, blank=False, 
+    name    = models.CharField(max_length=150, null=False, blank=False,
                                verbose_name="Nome da Foto")
     image   = ResizedImageField(upload_to='gallery/', force_format='WEBP',
                                     quality=85, null=True, blank=True, verbose_name="Imagem",
@@ -49,7 +51,7 @@ class ImageGallery(models.Model):
 
     class Meta:
         verbose_name        = 'Galeria'
-        verbose_name_plural = 'Galeria' 
+        verbose_name_plural = 'Galeria'
 
 class Island(models.Model):
     name            = models.CharField(max_length=150, null=False, blank=False, verbose_name="Nome da Ilha")
@@ -63,7 +65,7 @@ class Island(models.Model):
     description_en  = RichTextField(verbose_name="Descrição(Inglês)", null=True, blank=True)
     gallery         = models.ManyToManyField(ImageGallery, blank=True)
     vidId           = models.CharField(max_length=150, null=True, blank=True, verbose_name="Id de Video")
-    
+
     @property
     def logo_url(self):
         return "{0}{1}".format(settings.SITE_URL, self.image.url)
@@ -113,7 +115,7 @@ class County(models.Model):
 
 class Parish(models.Model):
     name            = models.CharField(max_length=150, null=False, blank=False, verbose_name="Nome da Freguesia")
-    county          = models.ForeignKey(County, null=False, blank=False, verbose_name="Concelho", 
+    county          = models.ForeignKey(County, null=False, blank=False, verbose_name="Concelho",
                                         on_delete=models.CASCADE)
     image           = ResizedImageField(size=[200, 200], upload_to='parish/images/', force_format='WEBP',
                                     quality=85, null=True, blank=True, verbose_name="Imagem",
@@ -192,12 +194,12 @@ class Food(models.Model):
 
 class Place(models.Model):
     name            = models.CharField(max_length=150, null=False, blank=False, verbose_name="Nome")
-    user            = models.ForeignKey(User, null=True, blank=True, verbose_name="Utilizador", 
+    user            = models.ForeignKey(User, null=True, blank=True, verbose_name="Utilizador",
                                         on_delete=models.CASCADE)
     slug            = models.CharField(max_length=150, null=True, blank=True, verbose_name="Slug", unique=True)
-    parish          = models.ForeignKey(Parish, null=False, blank=False, verbose_name="Freguesia", 
+    parish          = models.ForeignKey(Parish, null=False, blank=False, verbose_name="Freguesia",
                                         on_delete=models.CASCADE)
-    categorie       = models.ForeignKey(PlaceSubCategorie, null=False, blank=False, verbose_name="Categoria", 
+    categorie       = models.ForeignKey(PlaceSubCategorie, null=False, blank=False, verbose_name="Categoria",
                                         on_delete=models.CASCADE)
     stars           = models.IntegerField(null=True, blank=True, verbose_name="Estrelas(Se for Hotel)")
     description_pt  = RichTextField(verbose_name="Descrição(Português)", null=True, blank=True)
@@ -239,7 +241,3 @@ class Place(models.Model):
     class Meta:
         verbose_name = 'Local'
         verbose_name_plural = 'Locais'
-
-
-
-
