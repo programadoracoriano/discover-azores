@@ -176,3 +176,5 @@ CORS_ALLOW_HEADERS = [
     'x-csrftoken',
     'x-requested-with',
 ]
+
+CSRF_TRUSTED_ORIGINS = ['https://django-server-production-e6d9.up.railway.app']
